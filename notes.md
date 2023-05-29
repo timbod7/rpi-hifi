@@ -38,6 +38,12 @@ dtoverlay = vc4-kms-v3d,noaudio
 reboot 
 
 
+## Login
+
+ssh app@hifi.local
+(password in keepass)
+
+
 ## show audio devices
 
 ```
@@ -68,3 +74,56 @@ journalctl -u pulseaudio.service
 
 The librespot command can take an `--onevent` argument that calls a script whenever the spotify
 track changes - ie making it possible to update a display.
+
+
+## SSD1306 display
+
+### Setup i2c bus
+
+Enable i2c bus via `raspi-config`
+
+Then install `sudo apt-get install i2c-tools`
+
+and dump devices:
+
+```
+$ sudo i2cdetect  -y 1
+
+     0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
+00:                         -- -- -- -- -- -- -- -- 
+10: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+20: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+30: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+40: -- -- -- -- -- -- -- -- -- -- -- -- UU -- -- -- 
+50: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+60: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+70: -- -- -- -- -- -- -- --  
+```
+
+### Connect display:
+
+```
+OLED Pin     Fn      GPIO Pin
+-----------------------------
+1            VCC     1
+2            GND     6
+3            SCL     5
+4            SDA     3
+```
+
+After wiring:
+
+```
+app@hifi:~ $ sudo i2cdetect  -y 1
+     0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
+00:                         -- -- -- -- -- -- -- -- 
+10: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+20: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+30: -- -- -- -- -- -- -- -- -- -- -- -- 3c -- -- -- 
+40: -- -- -- -- -- -- -- -- -- -- -- -- UU -- -- -- 
+50: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+60: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+70: -- -- -- -- -- -- -- --  
+```
+
+
