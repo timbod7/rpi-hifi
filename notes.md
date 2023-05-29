@@ -126,4 +126,12 @@ app@hifi:~ $ sudo i2cdetect  -y 1
 70: -- -- -- -- -- -- -- --  
 ```
 
+## Cross compiling rust for rpi target from linux
 
+For rpi 4, target is `armv7-unknown-linux-gnueabihf`
+
+```
+cd hifi-control
+cargo install cross
+cross build --target armv7-unknown-linux-gnueabihf --release
+```
