@@ -117,6 +117,7 @@ version = "0.1.0"
 dependencies = [
  "embedded-graphics",
  "embedded-hal 0.2.7",
+ "profont",
  "rppal",
  "ssd1306",
 ]
@@ -162,6 +163,14 @@ name = "once_cell"
 version = "1.17.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b7e5500299e16ebb147ae15a00a942af264cf3688f47923b8fc2cd5858f23ad3"
+
+[[package]]
+name = "profont"
+version = "0.6.1"
+source = "git+https://github.com/sambenko/profont?branch=embedded-graphics-0.8.0-fixes#9b8062b1cc9ea578fbf32d85570f1c7b4f5de511"
+dependencies = [
+ "embedded-graphics",
+]
 
 [[package]]
 name = "rppal"
