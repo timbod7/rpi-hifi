@@ -35,6 +35,12 @@ dtparam=i2s=on
 dtoverlay = vc4-kms-v3d,noaudio
 ```
 
+and also increase i2c speed
+
+```
+dtparam=i2c_arm=on,i2c_arm_baudrate=400000
+```
+
 reboot 
 
 

@@ -16,22 +16,20 @@ fn main() -> ()  {
     let mut audio = AudioView::new();
 
     loop {
+        let (llevel,rlevel) = audio.read_average(8820);
+
+        let lx = (llevel * 16. * 128.) as u32;
+        let rx = (rlevel * 16. * 128.) as u32;
+
         let now = Local::now();
-        let (llevel,rlevel) = audio.read_average(4410);
-
-        let lx = (llevel * 128 / 32768) as u32;
-        let rx = (rlevel * 128 / 32768) as u32;
-
-        println!("llevel: {}, lx : {}", llevel, lx);
-
         dpy.render_text(&format!("{:0>2}:{:0>2}", now.hour(), now.minute()), Point::new(0, 0));
         dpy.render_text(&format!("Cpu {: >2}%", cpu_usage.get_percent()), Point::new(72, 0));
         
-        dpy.clear_rect(Point::new(0, 28), Size::new(127, 4));
-        dpy.render_rect(Point::new(0, 28), Size::new( lx, 4));
+        dpy.clear_rect(Point::new(0, 27), Size::new(128, 6));
+        dpy.render_rect(Point::new(0, 27), Size::new( lx, 6));
 
-        dpy.clear_rect(Point::new(0, 48), Size::new(127, 4));
-        dpy.render_rect(Point::new(0, 48), Size::new( rx, 4));
+        dpy.clear_rect(Point::new(0, 47), Size::new(128, 6));
+        dpy.render_rect(Point::new(0, 47), Size::new( rx, 6));
 
         dpy.target.flush().unwrap();
     }
