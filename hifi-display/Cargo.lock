@@ -172,7 +172,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "hifi-control"
+name = "hifi-display"
 version = "0.1.0"
 dependencies = [
  "chrono",

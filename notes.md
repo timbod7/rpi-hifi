@@ -137,7 +137,36 @@ app@hifi:~ $ sudo i2cdetect  -y 1
 For rpi 4, target is `armv7-unknown-linux-gnueabihf`
 
 ```
-cd hifi-control
+cd hifi-display
 cargo install cross
 cross build --target armv7-unknown-linux-gnueabihf --release
+```
+
+## Setting up display as a system service
+
+On the rpi as root
+
+```
+cat >/etc/systemd/system/hifidisplay.service <<EOF
+[Unit]
+Description=Hifi i2c display driver
+After=pulseaudio.service
+StartLimitIntervalSec=0
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=app
+ExecStart=/home/app/hifi-display
+
+[Install]
+WantedBy=multi-user.target
+EOF
+```
+
+then
+
+```
+systemctl start hifidisplay.service
+systemctl enable hifidisplay.service
 ```
