@@ -9,6 +9,8 @@ edition = "2021"
 chrono = "0.4.26"
 embedded-graphics = "0.8.0"
 embedded-hal = "0.2.7"
+libpulse-binding = "2.27.1"
+libpulse-simple-binding = "2.27.1"
 profont = { git = "https://github.com/sambenko/profont", branch = "embedded-graphics-0.8.0-fixes"}
 rppal = { version = "0.14.1", features = ["hal"] }
 ssd1306 = { git = "https://github.com/jamwaffles/ssd1306.git", branch = "master" }

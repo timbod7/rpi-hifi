@@ -4,23 +4,36 @@ use embedded_graphics::prelude::*;
 use chrono::prelude::*;
 
 use display::Display;
+use audio::AudioView;
 
 mod display;
+mod audio;
 
 fn main() -> ()  {
 
     let mut cpu_usage = CpuUsage::new();
     let mut dpy = Display::new();
-
-    dpy.render_rect(Point::new(0, 40), Size::new(127, 1));
-    dpy.target.flush().unwrap();
+    let mut audio = AudioView::new();
 
     loop {
         let now = Local::now();
-        dpy.render_text(&format!("Cpu {: >2}%", cpu_usage.get_percent()), Point::new(72, 0));
+        let (llevel,rlevel) = audio.read_average(4410);
+
+        let lx = (llevel * 128 / 32768) as u32;
+        let rx = (rlevel * 128 / 32768) as u32;
+
+        println!("llevel: {}, lx : {}", llevel, lx);
+
         dpy.render_text(&format!("{:0>2}:{:0>2}", now.hour(), now.minute()), Point::new(0, 0));
+        dpy.render_text(&format!("Cpu {: >2}%", cpu_usage.get_percent()), Point::new(72, 0));
+        
+        dpy.clear_rect(Point::new(0, 28), Size::new(127, 4));
+        dpy.render_rect(Point::new(0, 28), Size::new( lx, 4));
+
+        dpy.clear_rect(Point::new(0, 48), Size::new(127, 4));
+        dpy.render_rect(Point::new(0, 48), Size::new( rx, 4));
+
         dpy.target.flush().unwrap();
-        std::thread::sleep(std::time::Duration::from_millis(100));
     }
 }
 

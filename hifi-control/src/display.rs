@@ -17,6 +17,7 @@ pub struct Display {
     pub char_style: MonoTextStyle<'static, BinaryColor>,
     pub text_style: TextStyle,
     pub stroke_style: PrimitiveStyle<BinaryColor>,
+    pub clear_style: PrimitiveStyle<BinaryColor>,
 }
 
 impl Display {
@@ -41,11 +42,16 @@ impl Display {
         .stroke_color(BinaryColor::On)
         .build();
 
+    let clear_style = PrimitiveStyleBuilder::new()
+        .fill_color(BinaryColor::Off)
+        .build();
+
     Display{
         target: display,
         char_style,
         text_style,
         stroke_style,
+        clear_style,
         }
     }
 
@@ -55,11 +61,17 @@ impl Display {
         .unwrap();
     }
 
+    pub fn clear_rect(&mut self,  top_left: Point, size: Size) {
+        Rectangle::new(top_left, size)
+        .into_styled(self.clear_style)
+        .draw(&mut self.target)
+        .unwrap();
+    }
+
     pub fn render_rect(&mut self,  top_left: Point, size: Size) {
         Rectangle::new(top_left, size)
         .into_styled(self.stroke_style)
         .draw(&mut self.target)
         .unwrap();
-
     }
 }
