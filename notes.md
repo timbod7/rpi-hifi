@@ -69,6 +69,14 @@ Adjust spotify sound level via pulse audio
 pactl -- set-sink-volume 1 175%
 ```
 
+Also want volume to not be max, so change
+
+```
+LIBRESPOT_INITIAL_VOLUME="60"
+```
+
+in /etc/raspotify/conf
+
 Note confusion between controlling from ios device: ie airplay vs spotify connect. There are 2 different
 system services:
  
